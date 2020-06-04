@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "139686513421",
+    "firebase_url": "https://healthy-trivia.firebaseio.com",
+    "project_id": "healthy-trivia",
+    "storage_bucket": "healthy-trivia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:139686513421:android:04aee594427d4bc212fe44",
+        "android_client_info": {
+          "package_name": "com.software.healthytrivia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "139686513421-1bg86fiahboqmsdag74aofc60ppdr3a0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxC4euWQZL6ABtBQOVcC1WGsDlJHB__dE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "139686513421-1bg86fiahboqmsdag74aofc60ppdr3a0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "139686513421-96not5knh4gnogu2c3b7mnsq1gto35jr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.software.healthytrivia"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
