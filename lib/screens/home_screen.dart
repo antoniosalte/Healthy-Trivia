@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healthytrivia/providers/auth_provider.dart';
+import 'package:healthytrivia/screens/difficulty_screen.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,6 +9,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  void goToGame() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => DifficultyScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     AuthProvider authProvider =
@@ -20,12 +28,16 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('HomeScreen'),
+            Text('Bienvenido'),
             RaisedButton(
               child: Text('Sign Out'),
               onPressed: () {
                 authProvider.signOut();
               },
+            ),
+            RaisedButton(
+              child: Text('Jugar'),
+              onPressed: goToGame,
             )
           ],
         ),
