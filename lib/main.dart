@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healthytrivia/providers/auth_provider.dart';
+import 'package:healthytrivia/providers/theme_provider.dart';
 import 'package:healthytrivia/screens/auth_screen.dart';
 import 'package:healthytrivia/screens/home_screen.dart';
 import 'package:provider/provider.dart';
@@ -13,13 +14,18 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
-      ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+        ChangeNotifierProvider<ThemeProvider>(
+          create: (_) => ThemeProvider(isLightTheme: true),
         ),
-        home: AuthManager(title: 'Flutter Demo Home Page'),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            theme: themeProvider.getThemeData,
+            home: AuthManager(title: 'Flutter Demo Home Page'),
+          );
+        },
       ),
     );
   }
@@ -41,46 +47,4 @@ class AuthManager extends StatelessWidget {
       return AuthScreen();
     }
   }
-
-  //   if (authProvider.isAuthenticated) {
-  //     body = Column(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: <Widget>[Text('Authenticated')],
-  //     );
-  //   } else {
-  //     body = Column(
-  //       mainAxisAlignment: MainAxisAlignment.center,
-  //       children: <Widget>[Text('Unauthenticated')],
-  //     );
-  //   }
-
-  //   return Scaffold(
-  //     backgroundColor: Colors.white,
-  //     appBar: AppBar(
-  //       title: Text(title),
-  //       centerTitle: true,
-  //     ),
-  //     body: body,
-  //     floatingActionButton: Column(
-  //       mainAxisAlignment: MainAxisAlignment.end,
-  //       children: <Widget>[
-  //         (!authProvider.isAuthenticated
-  //             ? FloatingActionButton(
-  //                 onPressed: () {
-  //                   authProvider.signInAnonymously();
-  //                 },
-  //                 tooltip: 'Sign In Anonymously',
-  //                 child: Icon(Icons.account_circle),
-  //               )
-  //             : FloatingActionButton(
-  //                 onPressed: () {
-  //                   authProvider.signOut();
-  //                 },
-  //                 tooltip: 'Sign Out',
-  //                 child: Icon(Icons.exit_to_app),
-  //               ))
-  //       ],
-  //     ),
-  //   );
-  // }
 }
