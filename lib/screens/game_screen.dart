@@ -25,6 +25,8 @@ class _GameScreenState extends State<GameScreen> {
   int _countDownDuration = 20;
   int _timeRemaining = 20;
 
+  String _username = 'dummy';
+
   @override
   void initState() {
     getQuestion();
@@ -71,14 +73,47 @@ class _GameScreenState extends State<GameScreen> {
     );
   }
 
-  void goToScore() {
+  Future<void> endGame() async {
+    print(_username);
+    await _singleton.endGame(_username);
+    Navigator.of(context).pop();
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ScoreScreen(
           score: _singleton.score,
+          username: _username,
         ),
       ),
+    );
+  }
+
+  Future<void> _showUsernameDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Username'),
+          content: Column(
+            children: <Widget>[
+              TextField(
+                onChanged: (value) {
+                  setState(() {
+                    _username = value;
+                  });
+                },
+              )
+            ],
+          ),
+          actions: <Widget>[
+            RaisedButton(
+              child: Text('Score'),
+              onPressed: endGame,
+            )
+          ],
+        );
+      },
     );
   }
 
@@ -99,7 +134,6 @@ class _GameScreenState extends State<GameScreen> {
       _answerIndex = value;
       gamePhase = GamePhase.result;
     });
-    print((_countDownDuration - _timeRemaining));
     await _singleton.answerQuestion(
         _answerIndex, (_countDownDuration - _timeRemaining));
   }
@@ -167,7 +201,7 @@ class _GameScreenState extends State<GameScreen> {
     return ((_questionIndex + 1) == _singleton.questionLength
         ? RaisedButton(
             child: Text('Score'),
-            onPressed: goToScore,
+            onPressed: _showUsernameDialog,
           )
         : RaisedButton(
             child: Text('Next'),

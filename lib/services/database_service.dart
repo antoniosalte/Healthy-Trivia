@@ -50,11 +50,11 @@ class DatabaseService {
   }
 
   Future<void> endGame(Game game) async {
-    print(game.endDate);
-    await _firestore
-        .collection('games')
-        .document(game.id)
-        .updateData({'endDate': game.endDate});
+    await _firestore.collection('games').document(game.id).updateData({
+      'username': game.username,
+      'endDate': game.endDate,
+      'score': game.score,
+    });
   }
 
   Future<void> updateGameScore(Game game) async {

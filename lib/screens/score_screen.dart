@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 class ScoreScreen extends StatefulWidget {
   final int score;
+  final String username;
 
-  ScoreScreen({Key key, this.score}) : super(key: key);
+  ScoreScreen({Key key, this.score, this.username}) : super(key: key);
 
   @override
   _ScoreScreenState createState() => _ScoreScreenState();
@@ -24,6 +26,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(widget.username),
             Text('Score'),
             Text('${widget.score}'),
             RaisedButton(

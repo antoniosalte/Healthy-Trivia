@@ -58,11 +58,9 @@ class Singleton {
     _game = await _databaseService.createGame(_user.id, difficulty);
   }
 
-  Future<void> endGame() async {
-    DateTime endDate = DateTime.now();
-    print(endDate);
-    _game.endDate = endDate;
-    print(_game.endDate);
+  Future<void> endGame(String username) async {
+    _game.endDate = DateTime.now();
+    _game.username = username;
     await _databaseService.endGame(_game);
   }
 
@@ -81,8 +79,5 @@ class Singleton {
     );
     _updateScore(answerIndex, seconds);
     await _databaseService.answerQuestion(answer);
-    if ((_questionIndex + 1) == questionLength) {
-      await endGame();
-    }
   }
 }
