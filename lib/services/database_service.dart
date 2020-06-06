@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:healthytrivia/models/answer.dart';
 import 'package:healthytrivia/models/game.dart';
 import 'package:healthytrivia/models/question.dart';
+import 'package:healthytrivia/models/ranking.dart';
 import 'package:healthytrivia/models/user.dart';
 
 class DatabaseService {
@@ -69,5 +70,24 @@ class DatabaseService {
         .collection('answers')
         .document()
         .setData(answer.toFirestore());
+  }
+
+  Future<List<Ranking>> getRanking(int difficulty) async {
+    QuerySnapshot query = await _firestore
+        .collection('games')
+        .where('difficulty', isEqualTo: difficulty)
+        .getDocuments();
+    List<Ranking> ranking = List<Ranking>();
+
+    for (DocumentSnapshot document in query.documents) {
+      Ranking _ranking = Ranking.fromFirestore(document);
+      if (_ranking.score > -1) {
+        ranking.add(_ranking);
+      }
+    }
+
+    ranking.sort((b, a) => a.score.compareTo(b.score));
+
+    return ranking;
   }
 }

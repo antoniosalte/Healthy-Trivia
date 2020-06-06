@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthytrivia/models/answer.dart';
 import 'package:healthytrivia/models/game.dart';
 import 'package:healthytrivia/models/question.dart';
+import 'package:healthytrivia/models/ranking.dart';
 import 'package:healthytrivia/models/user.dart';
 import 'package:healthytrivia/services/database_service.dart';
 
@@ -79,5 +80,10 @@ class Singleton {
     );
     _updateScore(answerIndex, seconds);
     await _databaseService.answerQuestion(answer);
+  }
+
+  Future<List<Ranking>> getRanking() async {
+    List<Ranking> ranking = await _databaseService.getRanking(_game.difficulty);
+    return ranking;
   }
 }
