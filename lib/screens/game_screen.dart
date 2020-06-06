@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:healthytrivia/models/question.dart';
+import 'package:healthytrivia/screens/information_screen.dart';
 import 'package:healthytrivia/services/singleton.dart';
 
 enum GamePhase { question, result }
@@ -21,6 +22,15 @@ class _GameScreenState extends State<GameScreen> {
   void initState() {
     getQuestion();
     super.initState();
+  }
+
+  void openInformation() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => InformationScreen(url: _question.information),
+      ),
+    );
   }
 
   void getQuestion() {
@@ -92,6 +102,10 @@ class _GameScreenState extends State<GameScreen> {
         RaisedButton(
           child: Text('Next'),
           onPressed: getQuestion,
+        ),
+        RaisedButton(
+          child: Text('Information'),
+          onPressed: openInformation,
         ),
       ],
     );

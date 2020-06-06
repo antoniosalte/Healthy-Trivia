@@ -14,12 +14,6 @@ class _DifficultyScreenState extends State<DifficultyScreen> {
   int _difficulty = 0;
 
   Future<void> createGame() async {
-    await Firestore.instance.settings(
-      host: "localhost:8080",
-      sslEnabled: false,
-      persistenceEnabled: false,
-    );
-
     await _singleton.createGame(_difficulty);
 
     Navigator.push(
