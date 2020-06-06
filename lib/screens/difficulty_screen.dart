@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:healthytrivia/screens/game_screen.dart';
 import 'package:healthytrivia/services/singleton.dart';

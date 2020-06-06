@@ -24,6 +24,14 @@ class Singleton {
     return _instance;
   }
 
+  int get questionLength {
+    return _game.questions.length;
+  }
+
+  int get score {
+    return _game.score;
+  }
+
   void _updateScore(int answerIndex, int seconds) {
     int correct =
         _game.questions[_questionIndex].answerIndex == answerIndex ? 1 : 0;
