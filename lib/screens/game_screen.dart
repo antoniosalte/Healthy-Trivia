@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:quiver/async.dart';
 import 'package:flutter/material.dart';
 import 'package:healthytrivia/models/question.dart';
 import 'package:healthytrivia/screens/information_screen.dart';
@@ -19,10 +20,44 @@ class _GameScreenState extends State<GameScreen> {
   Question _question;
   GamePhase gamePhase = GamePhase.question;
 
+  CountdownTimer _countdownTimer;
+  StreamSubscription _subscription;
+  int _countDownDuration = 20;
+  int _timeRemaining = 20;
+
   @override
   void initState() {
     getQuestion();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    cancelTimer();
+    super.dispose();
+  }
+
+  void startTimer() {
+    _countdownTimer = new CountdownTimer(
+      new Duration(seconds: _countDownDuration),
+      new Duration(seconds: 1),
+    );
+
+    _subscription = _countdownTimer.listen(null);
+    _subscription.onData((data) {
+      setState(() {
+        _timeRemaining = _countdownTimer.remaining.inSeconds;
+      });
+    });
+    _subscription.onDone(() async {
+      await answerQuestion(-1);
+      cancelTimer();
+    });
+  }
+
+  void cancelTimer() {
+    _subscription.cancel();
+    _countdownTimer.cancel();
   }
 
   void openInformation() {
@@ -49,19 +84,24 @@ class _GameScreenState extends State<GameScreen> {
 
   void getQuestion() {
     setState(() {
-      gamePhase = GamePhase.question;
       _questionIndex += 1;
       _answerIndex = null;
       _question = _singleton.getQuestion();
+      _timeRemaining = 20;
+      gamePhase = GamePhase.question;
     });
+    startTimer();
   }
 
   Future<void> answerQuestion(int value) async {
+    cancelTimer();
     setState(() {
       _answerIndex = value;
       gamePhase = GamePhase.result;
     });
-    _singleton.answerQuestion(_answerIndex, 0);
+    print((_countDownDuration - _timeRemaining));
+    await _singleton.answerQuestion(
+        _answerIndex, (_countDownDuration - _timeRemaining));
   }
 
   @override
@@ -82,6 +122,7 @@ class _GameScreenState extends State<GameScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        Text('Tiempo: $_timeRemaining'),
         Text('Pregunta ${_questionIndex + 1}'),
         Text(_question.question),
         _buildOptions()

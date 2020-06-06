@@ -50,6 +50,7 @@ class DatabaseService {
   }
 
   Future<void> endGame(Game game) async {
+    print(game.endDate);
     await _firestore
         .collection('games')
         .document(game.id)

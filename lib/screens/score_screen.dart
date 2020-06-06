@@ -10,6 +10,10 @@ class ScoreScreen extends StatefulWidget {
 }
 
 class _ScoreScreenState extends State<ScoreScreen> {
+  void goToHome() {
+    Navigator.popUntil(context, (Route<dynamic> route) => route.isFirst);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,6 +26,10 @@ class _ScoreScreenState extends State<ScoreScreen> {
           children: <Widget>[
             Text('Score'),
             Text('${widget.score}'),
+            RaisedButton(
+              child: Text('Home'),
+              onPressed: goToHome,
+            ),
           ],
         ),
       ),
