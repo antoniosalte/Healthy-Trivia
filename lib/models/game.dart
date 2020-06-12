@@ -2,7 +2,7 @@ import 'package:healthytrivia/models/question.dart';
 
 class Game {
   String id;
-  String username;
+  String nickname;
   String userId;
   int difficulty;
   int score;
@@ -30,7 +30,7 @@ class Game {
       id: id,
       userId: userId,
       difficulty: difficulty,
-      score: -1,
+      score: 0,
       initDate: DateTime.now(),
       endDate: DateTime.now(),
       questions: questions,
@@ -39,7 +39,7 @@ class Game {
 
   Map<String, dynamic> toFirestore() => <String, dynamic>{
         'userId': userId,
-        'username': username,
+        'nickname': nickname,
         'difficulty': difficulty,
         'score': score,
         'initDate': initDate,

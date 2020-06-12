@@ -22,7 +22,8 @@ final lightTheme = ThemeData(
   accentColor: colorSchemeLight.primary,
   brightness: colorSchemeLight.brightness,
   buttonColor: colorSchemeLight.primary,
-  appBarTheme: appBarThemeLight,
+  appBarTheme: appBarTheme,
+  inputDecorationTheme: inputDecorationThemeLight,
 );
 
 final darkTheme = ThemeData(
@@ -32,11 +33,28 @@ final darkTheme = ThemeData(
   backgroundColor: colorSchemeDark.background,
   accentColor: colorSchemeDark.secondary,
   brightness: colorSchemeDark.brightness,
+  buttonColor: colorSchemeLight.primary,
+  appBarTheme: appBarTheme,
+  inputDecorationTheme: inputDecorationThemeDark,
 );
 
-final appBarThemeLight = AppBarTheme(
+final appBarTheme = AppBarTheme(
   color: Colors.transparent,
   elevation: 0.0,
+);
+
+final inputDecorationThemeLight = InputDecorationTheme(
+  hoverColor: colorSchemeLight.primary,
+  border: OutlineInputBorder(
+    borderSide: BorderSide(color: colorSchemeLight.primary),
+  ),
+);
+
+final inputDecorationThemeDark = InputDecorationTheme(
+  hoverColor: colorSchemeDark.primary,
+  border: OutlineInputBorder(
+    borderSide: BorderSide(color: colorSchemeDark.primary),
+  ),
 );
 
 final colorSchemeLight = ColorScheme(

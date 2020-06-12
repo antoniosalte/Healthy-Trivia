@@ -59,9 +59,9 @@ class Singleton {
     _game = await _databaseService.createGame(_user.id, difficulty);
   }
 
-  Future<void> endGame(String username) async {
+  Future<void> endGame(String nickname) async {
     _game.endDate = DateTime.now();
-    _game.username = username;
+    _game.nickname = nickname;
     await _databaseService.endGame(_game);
   }
 

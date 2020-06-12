@@ -52,7 +52,7 @@ class DatabaseService {
 
   Future<void> endGame(Game game) async {
     await _firestore.collection('games').document(game.id).updateData({
-      'username': game.username,
+      'nickname': game.nickname,
       'endDate': game.endDate,
       'score': game.score,
     });
@@ -81,7 +81,7 @@ class DatabaseService {
 
     for (DocumentSnapshot document in query.documents) {
       Ranking _ranking = Ranking.fromFirestore(document);
-      if (_ranking.score > -1) {
+      if (_ranking.score > 0) {
         ranking.add(_ranking);
       }
     }

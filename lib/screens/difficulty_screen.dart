@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:healthytrivia/screens/game_screen.dart';
 import 'package:healthytrivia/services/singleton.dart';
+import 'package:healthytrivia/widgets/title_widget.dart';
 
 class DifficultyScreen extends StatefulWidget {
   @override
@@ -12,8 +13,28 @@ class _DifficultyScreenState extends State<DifficultyScreen> {
 
   int _difficulty = 0;
 
+  void _showLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Align(
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(
+                Theme.of(context).colorScheme.primary),
+          ),
+        );
+      },
+    );
+  }
+
   Future<void> createGame() async {
+    _showLoading();
+
     await _singleton.createGame(_difficulty);
+
+    Navigator.pop(context);
 
     Navigator.push(
       context,
@@ -33,7 +54,9 @@ class _DifficultyScreenState extends State<DifficultyScreen> {
           children: <Widget>[
             Align(
               alignment: Alignment.topCenter,
-              child: Text('Seleccione la dificultad'),
+              child: TitleWidget(
+                title: 'SELECCIONE LA DIFICULTAD',
+              ),
             ),
             Align(
               alignment: Alignment.center,

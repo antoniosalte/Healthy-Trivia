@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return MaterialApp(
-            title: 'Flutter Demo',
+            title: 'Healthy Trivia',
             theme: themeProvider.getThemeData,
-            home: AuthManager(title: 'Flutter Demo Home Page'),
+            home: AuthManager(title: 'Healthy Trivia'),
           );
         },
       ),

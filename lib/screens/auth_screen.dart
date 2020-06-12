@@ -9,23 +9,21 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: true);
+    authProvider.signInAnonymously();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('AuthScreen'),
-      ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('AuthScreen'),
-            RaisedButton(
-              child: Text('Sign In'),
-              onPressed: () {
-                authProvider.signInAnonymously();
-              },
+            Text(
+              'Loading',
             )
           ],
         ),

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:healthytrivia/models/ranking.dart';
 import 'package:quiver/async.dart';
 import 'package:flutter/material.dart';
 import 'package:healthytrivia/models/question.dart';
@@ -25,7 +26,7 @@ class _GameScreenState extends State<GameScreen> {
   int _countDownDuration = 20;
   int _timeRemaining = 20;
 
-  String _username = 'dummy';
+  String _nickname = 'dummy';
 
   @override
   void initState() {
@@ -37,6 +38,22 @@ class _GameScreenState extends State<GameScreen> {
   void dispose() {
     cancelTimer();
     super.dispose();
+  }
+
+  void _showLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Align(
+          alignment: Alignment.center,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(
+                Theme.of(context).colorScheme.primary),
+          ),
+        );
+      },
+    );
   }
 
   void startTimer() {
@@ -74,40 +91,47 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Future<void> endGame() async {
-    print(_username);
-    await _singleton.endGame(_username);
+    _showLoading();
+    print(_nickname);
+    Ranking currentRanking = Ranking.fromGame(_nickname, _singleton.score);
+    await _singleton.endGame(_nickname);
     Navigator.of(context).pop();
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ScoreScreen(
-          score: _singleton.score,
-          username: _username,
+          currentRanking: currentRanking,
         ),
       ),
     );
   }
 
-  Future<void> _showUsernameDialog() async {
+  Future<void> _showNicknameDialog() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Username'),
+          title: Text('Nickname'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
                 onChanged: (value) {
                   setState(() {
-                    _username = value;
+                    _nickname = value;
                   });
                 },
               )
             ],
           ),
           actions: <Widget>[
+            FlatButton(
+              child: Text('Cancelar'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             RaisedButton(
               child: Text('Guardar'),
               onPressed: endGame,
@@ -181,7 +205,7 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                   Container(
                     width: double.infinity,
-                    height: 200,
+                    height: 250,
                     padding: EdgeInsets.only(left: 16.0, right: 16.0),
                     child: (gamePhase == GamePhase.question
                         ? _buildQuestion()
@@ -252,7 +276,7 @@ class _GameScreenState extends State<GameScreen> {
     return ((_questionIndex + 1) == _singleton.questionLength
         ? RaisedButton(
             child: Text('Puntaje'),
-            onPressed: _showUsernameDialog,
+            onPressed: _showNicknameDialog,
           )
         : RaisedButton(
             child: Text('Siguiente'),
