@@ -96,6 +96,7 @@ class _GameScreenState extends State<GameScreen> {
         return AlertDialog(
           title: Text('Username'),
           content: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
                 onChanged: (value) {
@@ -108,7 +109,7 @@ class _GameScreenState extends State<GameScreen> {
           ),
           actions: <Widget>[
             RaisedButton(
-              child: Text('Score'),
+              child: Text('Guardar'),
               onPressed: endGame,
             )
           ],
@@ -144,10 +145,53 @@ class _GameScreenState extends State<GameScreen> {
       appBar: AppBar(
         title: Text('GameScreen'),
       ),
-      body: Center(
-        child: (gamePhase == GamePhase.question
-            ? _buildQuestion()
-            : _buildResult()),
+      body: Padding(
+        padding: EdgeInsets.only(left: 16.0, right: 16.0),
+        child: Column(
+          children: <Widget>[
+            Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Text('Pregunta ${_questionIndex + 1}'),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Text('Tiempo: $_timeRemaining'),
+                ),
+              ],
+            ),
+            SizedBox(height: 16.0),
+            Card(
+              elevation: 10.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    color: Theme.of(context).colorScheme.secondary,
+                    height: 50,
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(_question.question),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    width: double.infinity,
+                    height: 200,
+                    padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                    child: (gamePhase == GamePhase.question
+                        ? _buildQuestion()
+                        : _buildResult()),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -155,17 +199,13 @@ class _GameScreenState extends State<GameScreen> {
   Widget _buildQuestion() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text('Tiempo: $_timeRemaining'),
-        Text('Pregunta ${_questionIndex + 1}'),
-        Text(_question.question),
-        _buildOptions()
-      ],
+      children: <Widget>[_buildOptions()],
     );
   }
 
   Widget _buildOptions() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: _question.options
           .asMap()
           .entries
@@ -184,15 +224,26 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Widget _buildResult() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    return Stack(
       children: <Widget>[
-        Text(_answerIndex == _question.answerIndex ? 'Correcto' : 'Mal'),
-        RaisedButton(
-          child: Text('Information'),
-          onPressed: openInformation,
+        Align(
+          alignment: Alignment.center,
+          child:
+              Text(_answerIndex == _question.answerIndex ? 'Correcto' : 'Mal'),
         ),
-        _buildAction(),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              FlatButton(
+                child: Text('Saber Más'),
+                onPressed: openInformation,
+              ),
+              _buildAction(),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -200,11 +251,11 @@ class _GameScreenState extends State<GameScreen> {
   Widget _buildAction() {
     return ((_questionIndex + 1) == _singleton.questionLength
         ? RaisedButton(
-            child: Text('Score'),
+            child: Text('Puntaje'),
             onPressed: _showUsernameDialog,
           )
         : RaisedButton(
-            child: Text('Next'),
+            child: Text('Siguiente'),
             onPressed: getQuestion,
           ));
   }

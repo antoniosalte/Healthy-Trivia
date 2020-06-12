@@ -26,19 +26,26 @@ class _DifficultyScreenState extends State<DifficultyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('DifficultyScreen'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      appBar: AppBar(),
+      body: Padding(
+        padding: EdgeInsets.only(bottom: 48),
+        child: Stack(
           children: <Widget>[
-            Text('Dificultad'),
-            _buildOptions(),
-            RaisedButton(
-              child: Text('Empezar'),
-              onPressed: createGame,
-            )
+            Align(
+              alignment: Alignment.topCenter,
+              child: Text('Seleccione la dificultad'),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: _buildOptions(),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: RaisedButton(
+                child: Text('Empezar'),
+                onPressed: createGame,
+              ),
+            ),
           ],
         ),
       ),
@@ -46,39 +53,52 @@ class _DifficultyScreenState extends State<DifficultyScreen> {
   }
 
   Widget _buildOptions() {
-    return Column(
-      children: <Widget>[
-        RadioListTile<int>(
-          title: Text('Básico'),
-          value: 0,
-          groupValue: _difficulty,
-          onChanged: (int value) {
-            setState(() {
-              _difficulty = value;
-            });
-          },
-        ),
-        RadioListTile<int>(
-          title: Text('Intermedio'),
-          value: 1,
-          groupValue: _difficulty,
-          onChanged: (int value) {
-            setState(() {
-              _difficulty = value;
-            });
-          },
-        ),
-        RadioListTile<int>(
-          title: Text('Avanzado'),
-          value: 2,
-          groupValue: _difficulty,
-          onChanged: (int value) {
-            setState(() {
-              _difficulty = value;
-            });
-          },
-        ),
-      ],
+    return Container(
+      width: 200,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          RadioListTile<int>(
+            title: Text(
+              'Básico',
+              textAlign: TextAlign.center,
+            ),
+            value: 0,
+            groupValue: _difficulty,
+            onChanged: (int value) {
+              setState(() {
+                _difficulty = value;
+              });
+            },
+          ),
+          RadioListTile<int>(
+            title: Text(
+              'Intermedio',
+              textAlign: TextAlign.center,
+            ),
+            value: 1,
+            groupValue: _difficulty,
+            onChanged: (int value) {
+              setState(() {
+                _difficulty = value;
+              });
+            },
+          ),
+          RadioListTile<int>(
+            title: Text(
+              'Avanzado',
+              textAlign: TextAlign.center,
+            ),
+            value: 2,
+            groupValue: _difficulty,
+            onChanged: (int value) {
+              setState(() {
+                _difficulty = value;
+              });
+            },
+          ),
+        ],
+      ),
     );
   }
 }
