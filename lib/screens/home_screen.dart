@@ -1,7 +1,7 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:healthytrivia/providers/auth_provider.dart';
 import 'package:healthytrivia/providers/theme_provider.dart';
 import 'package:healthytrivia/screens/difficulty_screen.dart';
 import 'package:provider/provider.dart';
@@ -38,10 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Future<void> setTheme() async {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    await themeProvider.setThemeDataAsync(!themeProvider.isLightTheme);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final AuthProvider authProvider =
-        Provider.of<AuthProvider>(context, listen: true);
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       body: Padding(
@@ -49,21 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Stack(
           children: <Widget>[
             Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                icon: Icon(Icons.exit_to_app),
-                onPressed: authProvider.signOut,
-              ),
-            ),
-            Align(
               alignment: Alignment.topRight,
               child: IconButton(
                 icon: Icon(themeProvider.isLightTheme
                     ? Icons.brightness_3
                     : Icons.brightness_7),
-                onPressed: () {
-                  themeProvider.setThemeData = !themeProvider.isLightTheme;
-                },
+                onPressed: setTheme,
               ),
             ),
             Align(

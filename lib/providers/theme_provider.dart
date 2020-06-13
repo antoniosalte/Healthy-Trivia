@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show Brightness;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider with ChangeNotifier {
   bool isLightTheme;
@@ -8,7 +10,16 @@ class ThemeProvider with ChangeNotifier {
 
   ThemeData get getThemeData => isLightTheme ? lightTheme : darkTheme;
 
-  set setThemeData(bool value) {
+  //Async
+  Future<void> setThemeDataAsync(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isLightTheme', value);
+    isLightTheme = value;
+    notifyListeners();
+  }
+
+  // Sync
+  set setThemeDataSync(bool value) {
     isLightTheme = value;
     notifyListeners();
   }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:healthytrivia/providers/auth_provider.dart';
+import 'package:healthytrivia/providers/theme_provider.dart';
 import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -25,7 +26,10 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeProvider themeProvider =
+        Provider.of<ThemeProvider>(context, listen: true);
     return Scaffold(
+      backgroundColor: themeProvider.getThemeData.backgroundColor,
       body: Padding(
         padding: EdgeInsets.fromLTRB(8, 32, 8, 32),
         child: Center(
