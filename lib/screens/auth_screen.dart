@@ -26,10 +26,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themeProvider =
-        Provider.of<ThemeProvider>(context, listen: true);
     return Scaffold(
-      backgroundColor: themeProvider.getThemeData.backgroundColor,
       body: Padding(
         padding: EdgeInsets.fromLTRB(8, 32, 8, 32),
         child: Center(
