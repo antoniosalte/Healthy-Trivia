@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:healthytrivia/providers/auth_provider.dart';
 import 'package:healthytrivia/providers/theme_provider.dart';
 import 'package:healthytrivia/screens/auth_screen.dart';
@@ -8,9 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences.getInstance().then((SharedPreferences prefs) {
-    bool isLightTheme = prefs.getBool('isLightTheme') ?? true;
-    runApp(MyApp(isLightTheme: isLightTheme));
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
+    SharedPreferences.getInstance().then((SharedPreferences prefs) {
+      bool isLightTheme = prefs.getBool('isLightTheme') ?? true;
+      runApp(MyApp(isLightTheme: isLightTheme));
+    });
   });
 }
 
