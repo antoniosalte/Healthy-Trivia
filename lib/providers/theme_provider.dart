@@ -22,8 +22,9 @@ final lightTheme = ThemeData(
   accentColor: colorSchemeLight.primary,
   brightness: colorSchemeLight.brightness,
   buttonColor: colorSchemeLight.primary,
-  appBarTheme: appBarTheme,
+  appBarTheme: appBarThemeLight,
   inputDecorationTheme: inputDecorationThemeLight,
+  iconTheme: iconThemeDataLight,
 );
 
 final darkTheme = ThemeData(
@@ -31,16 +32,32 @@ final darkTheme = ThemeData(
   primaryColor: colorSchemeDark.primary,
   errorColor: colorSchemeDark.error,
   backgroundColor: colorSchemeDark.background,
-  accentColor: colorSchemeDark.secondary,
+  accentColor: colorSchemeDark.primary,
   brightness: colorSchemeDark.brightness,
-  buttonColor: colorSchemeLight.primary,
-  appBarTheme: appBarTheme,
+  buttonColor: colorSchemeDark.primary,
+  appBarTheme: appBarThemeDark,
   inputDecorationTheme: inputDecorationThemeDark,
+  iconTheme: iconThemeDataDark,
 );
 
-final appBarTheme = AppBarTheme(
+final appBarThemeLight = AppBarTheme(
   color: Colors.transparent,
   elevation: 0.0,
+  iconTheme: iconThemeDataLight,
+);
+
+final appBarThemeDark = AppBarTheme(
+  color: Colors.transparent,
+  elevation: 0.0,
+  iconTheme: iconThemeDataDark,
+);
+
+final iconThemeDataLight = IconThemeData(
+  color: Colors.black,
+);
+
+final iconThemeDataDark = IconThemeData(
+  color: Colors.white,
 );
 
 final inputDecorationThemeLight = InputDecorationTheme(
@@ -62,8 +79,8 @@ final colorSchemeLight = ColorScheme(
   primaryVariant: const Color(0xFFFF8642),
   secondary: const Color(0xFF41BAFF),
   secondaryVariant: const Color(0xFF41BAFF),
-  surface: Colors.white,
-  background: Colors.white,
+  surface: Colors.grey[50],
+  background: Colors.grey[50],
   error: Colors.red,
   onPrimary: const Color(0xFF41BAFF),
   onSecondary: const Color(0xFF41BAFF),

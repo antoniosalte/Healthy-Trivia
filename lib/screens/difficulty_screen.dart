@@ -22,7 +22,8 @@ class _DifficultyScreenState extends State<DifficultyScreen> {
           alignment: Alignment.center,
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(
-                Theme.of(context).colorScheme.primary),
+              Theme.of(context).colorScheme.primary,
+            ),
           ),
         );
       },
@@ -82,6 +83,7 @@ class _DifficultyScreenState extends State<DifficultyScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           RadioListTile<int>(
+            activeColor: Theme.of(context).colorScheme.primary,
             title: Text(
               'Básico',
               textAlign: TextAlign.center,
@@ -95,6 +97,7 @@ class _DifficultyScreenState extends State<DifficultyScreen> {
             },
           ),
           RadioListTile<int>(
+            activeColor: Theme.of(context).colorScheme.primary,
             title: Text(
               'Intermedio',
               textAlign: TextAlign.center,
@@ -108,6 +111,7 @@ class _DifficultyScreenState extends State<DifficultyScreen> {
             },
           ),
           RadioListTile<int>(
+            activeColor: Theme.of(context).colorScheme.primary,
             title: Text(
               'Avanzado',
               textAlign: TextAlign.center,

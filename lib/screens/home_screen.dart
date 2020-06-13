@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:healthytrivia/providers/auth_provider.dart';
 import 'package:healthytrivia/providers/theme_provider.dart';
 import 'package:healthytrivia/screens/difficulty_screen.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
           alignment: Alignment.center,
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(
-                Theme.of(context).colorScheme.primary),
+              Theme.of(context).colorScheme.primary,
+            ),
           ),
         );
       },
@@ -38,35 +40,49 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: true);
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(themeProvider.isLightTheme
-                ? Icons.brightness_3
-                : Icons.brightness_7),
-            onPressed: () {
-              themeProvider.setThemeData = !themeProvider.isLightTheme;
-            },
-          ),
-        ],
-      ),
       body: Padding(
-        padding: EdgeInsets.only(left: 32, right: 32, top: 64, bottom: 48),
+        padding: EdgeInsets.fromLTRB(8, 32, 8, 32),
         child: Stack(
           children: <Widget>[
             Align(
-              alignment: Alignment.topCenter,
+              alignment: Alignment.topLeft,
+              child: IconButton(
+                icon: Icon(Icons.exit_to_app),
+                onPressed: authProvider.signOut,
+              ),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(themeProvider.isLightTheme
+                    ? Icons.brightness_3
+                    : Icons.brightness_7),
+                onPressed: () {
+                  themeProvider.setThemeData = !themeProvider.isLightTheme;
+                },
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
               child: SvgPicture.asset(
                 'assets/images/logo.svg',
-                height: 96,
+                height: 150,
               ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: RaisedButton(
-                child: Text('Jugar'),
+              child: FlatButton(
+                child: Text(
+                  'JUGAR',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
                 onPressed: goToGame,
               ),
             ),

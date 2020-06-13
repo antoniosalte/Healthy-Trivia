@@ -18,6 +18,7 @@ class _GameScreenState extends State<GameScreen> {
   Singleton _singleton = Singleton();
   int _questionIndex = -1;
   int _answerIndex;
+  int _score = 0;
   Question _question;
   GamePhase gamePhase = GamePhase.question;
 
@@ -49,7 +50,8 @@ class _GameScreenState extends State<GameScreen> {
           alignment: Alignment.center,
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(
-                Theme.of(context).colorScheme.primary),
+              Theme.of(context).colorScheme.primary,
+            ),
           ),
         );
       },
@@ -92,7 +94,6 @@ class _GameScreenState extends State<GameScreen> {
 
   Future<void> endGame() async {
     _showLoading();
-    print(_nickname);
     Ranking currentRanking = Ranking.fromGame(_nickname, _singleton.score);
     await _singleton.endGame(_nickname);
     Navigator.of(context).pop();
@@ -154,36 +155,54 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Future<void> answerQuestion(int value) async {
+    if (_answerIndex != null) {
+      return;
+    }
     cancelTimer();
     setState(() {
       _answerIndex = value;
-      gamePhase = GamePhase.result;
     });
+    await Future.delayed(const Duration(milliseconds: 250), () {});
     await _singleton.answerQuestion(
         _answerIndex, (_countDownDuration - _timeRemaining));
+    setState(() {
+      gamePhase = GamePhase.result;
+      _score = _singleton.score;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GameScreen'),
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              'Puntaje: $_score',
+              style: TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+            ),
+            Text(
+              'Tiempo: $_timeRemaining',
+              style: TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.onBackground,
+              ),
+            ),
+          ],
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.only(left: 16.0, right: 16.0),
         child: Column(
           children: <Widget>[
-            Stack(
-              children: <Widget>[
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: Text('Pregunta ${_questionIndex + 1}'),
-                ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Text('Tiempo: $_timeRemaining'),
-                ),
-              ],
+            Text(
+              'Pregunta ${_questionIndex + 1}',
+              textAlign: TextAlign.center,
             ),
             SizedBox(height: 16.0),
             Card(
@@ -235,6 +254,7 @@ class _GameScreenState extends State<GameScreen> {
           .entries
           .map(
             (entry) => RadioListTile<int>(
+              activeColor: Theme.of(context).colorScheme.primary,
               title: Text(entry.value),
               value: entry.key,
               groupValue: _answerIndex,
