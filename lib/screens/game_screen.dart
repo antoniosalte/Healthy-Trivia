@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:healthytrivia/models/question.dart';
 import 'package:healthytrivia/screens/information_screen.dart';
 import 'package:healthytrivia/screens/score_screen.dart';
-import 'package:healthytrivia/services/singleton.dart';
+import 'package:healthytrivia/services/game_service.dart';
 
 enum GamePhase { question, result }
 
@@ -196,44 +196,46 @@ class _GameScreenState extends State<GameScreen> {
           ],
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.only(left: 16.0, right: 16.0),
-        child: Column(
-          children: <Widget>[
-            Text(
-              'Pregunta ${_questionIndex + 1}',
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 16.0),
-            Card(
-              elevation: 10.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Container(
-                    color: Theme.of(context).colorScheme.secondary,
-                    height: 50,
-                    width: double.infinity,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(_question.question),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: double.infinity,
-                    height: 250,
-                    padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                    child: (gamePhase == GamePhase.question
-                        ? _buildQuestion()
-                        : _buildResult()),
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Column(
+            children: <Widget>[
+              Text(
+                'Pregunta ${_questionIndex + 1}',
+                textAlign: TextAlign.center,
               ),
-            ),
-          ],
+              SizedBox(height: 16.0),
+              Card(
+                elevation: 10.0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      color: Theme.of(context).colorScheme.secondary,
+                      padding: EdgeInsets.all(8),
+                      width: double.infinity,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(_question.question),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      // height: 250,
+                      padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                      child: (gamePhase == GamePhase.question
+                          ? _buildQuestion()
+                          : _buildResult()),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -268,27 +270,30 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Widget _buildResult() {
-    return Stack(
-      children: <Widget>[
-        Align(
-          alignment: Alignment.center,
-          child:
-              Text(_answerIndex == _question.answerIndex ? 'Correcto' : 'Mal'),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              FlatButton(
-                child: Text('Saber Más'),
-                onPressed: openInformation,
-              ),
-              _buildAction(),
-            ],
+    return Container(
+      height: 200,
+      child: Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+                _answerIndex == _question.answerIndex ? 'Correcto' : 'Mal'),
           ),
-        ),
-      ],
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                FlatButton(
+                  child: Text('Saber Más'),
+                  onPressed: openInformation,
+                ),
+                _buildAction(),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:healthytrivia/services/singleton.dart';
+import 'package:healthytrivia/services/game_service.dart';
 
 class AuthProvider with ChangeNotifier {
   FirebaseUser user;
   StreamSubscription userSubscription;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  Singleton _singleton = Singleton();
+  GameService _gameService = GameService();
 
   AuthProvider() {
     userSubscription = _firebaseAuth.onAuthStateChanged.listen((newUser) {
@@ -47,7 +47,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> signInAnonymously() async {
     await _firebaseAuth.signInAnonymously();
-    _singleton.createUser();
+    _gameService.createUser();
   }
 
   Future<void> signOut() async {

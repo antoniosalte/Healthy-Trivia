@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healthytrivia/screens/game_screen.dart';
-import 'package:healthytrivia/services/singleton.dart';
+import 'package:healthytrivia/services/game_service.dart';
 import 'package:healthytrivia/widgets/title_widget.dart';
 
 class DifficultyScreen extends StatefulWidget {
@@ -9,7 +9,7 @@ class DifficultyScreen extends StatefulWidget {
 }
 
 class _DifficultyScreenState extends State<DifficultyScreen> {
-  Singleton _singleton = Singleton();
+  GameService _gameService = GameService();
 
   int _difficulty = 0;
 
@@ -33,7 +33,7 @@ class _DifficultyScreenState extends State<DifficultyScreen> {
   Future<void> createGame() async {
     _showLoading();
 
-    await _singleton.createGame(_difficulty);
+    await _gameService.createGame(_difficulty);
 
     Navigator.pop(context);
 

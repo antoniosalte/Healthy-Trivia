@@ -9,19 +9,19 @@ import 'package:healthytrivia/models/user.dart';
 import 'package:healthytrivia/services/database_service.dart';
 
 // Singleton
-class Singleton {
+class GameService {
   User _user;
   Game _game;
   int _questionIndex;
 
-  Singleton._privateConstructor();
+  GameService._privateConstructor();
 
-  static final Singleton _instance = Singleton._privateConstructor();
+  static final GameService _instance = GameService._privateConstructor();
 
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   DatabaseService _databaseService = DatabaseService();
 
-  factory Singleton() {
+  factory GameService() {
     return _instance;
   }
 
@@ -36,7 +36,9 @@ class Singleton {
   void _updateScore(int answerIndex, int seconds) {
     int correct =
         _game.questions[_questionIndex].answerIndex == answerIndex ? 1 : 0;
-    int currentScore = correct * ((_game.difficulty * 100) - (seconds * 5));
+    int currentScore =
+        correct * (((_game.difficulty + 1) * 100) - (seconds * 5));
+
     _game.score += currentScore;
   }
 

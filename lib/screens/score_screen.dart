@@ -5,7 +5,7 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthytrivia/models/ranking.dart';
-import 'package:healthytrivia/services/singleton.dart';
+import 'package:healthytrivia/services/game_service.dart';
 import 'package:healthytrivia/widgets/title_widget.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -19,7 +19,7 @@ class ScoreScreen extends StatefulWidget {
 }
 
 class _ScoreScreenState extends State<ScoreScreen> {
-  Singleton _singleton = Singleton();
+  GameService _gameService = GameService();
   List<Ranking> ranking = List<Ranking>();
 
   bool _rankingBool = false;
@@ -36,7 +36,7 @@ class _ScoreScreenState extends State<ScoreScreen> {
 
   Future<void> getRanking() async {
     if (ranking.length == 0) {
-      ranking = await _singleton.getRanking();
+      ranking = await _gameService.getRanking();
     }
     setState(() {
       _rankingBool = true;
