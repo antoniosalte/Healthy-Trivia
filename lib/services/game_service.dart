@@ -33,6 +33,11 @@ class GameService {
     return _game.score;
   }
 
+  Ranking createRanking(String nickname) {
+    Ranking ranking = Ranking.fromGame(_game.id, nickname, _game.score);
+    return ranking;
+  }
+
   void _updateScore(int answerIndex, int seconds) {
     int correct =
         _game.questions[_questionIndex].answerIndex == answerIndex ? 1 : 0;

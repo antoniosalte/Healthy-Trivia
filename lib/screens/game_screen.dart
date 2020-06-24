@@ -15,7 +15,7 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> {
-  Singleton _singleton = Singleton();
+  GameService _gameService = GameService();
   int _questionIndex = -1;
   int _answerIndex;
   int _score = 0;
@@ -94,8 +94,8 @@ class _GameScreenState extends State<GameScreen> {
 
   Future<void> endGame() async {
     _showLoading();
-    Ranking currentRanking = Ranking.fromGame(_nickname, _singleton.score);
-    await _singleton.endGame(_nickname);
+    Ranking currentRanking = _gameService.createRanking(_nickname);
+    await _gameService.endGame(_nickname);
     Navigator.of(context).pop();
     Navigator.push(
       context,
@@ -147,7 +147,7 @@ class _GameScreenState extends State<GameScreen> {
     setState(() {
       _questionIndex += 1;
       _answerIndex = null;
-      _question = _singleton.getQuestion();
+      _question = _gameService.getQuestion();
       _timeRemaining = 20;
       gamePhase = GamePhase.question;
     });
@@ -163,11 +163,11 @@ class _GameScreenState extends State<GameScreen> {
       _answerIndex = value;
     });
     await Future.delayed(const Duration(milliseconds: 250), () {});
-    await _singleton.answerQuestion(
+    await _gameService.answerQuestion(
         _answerIndex, (_countDownDuration - _timeRemaining));
     setState(() {
       gamePhase = GamePhase.result;
-      _score = _singleton.score;
+      _score = _gameService.score;
     });
   }
 
@@ -298,7 +298,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   Widget _buildAction() {
-    return ((_questionIndex + 1) == _singleton.questionLength
+    return ((_questionIndex + 1) == _gameService.questionLength
         ? RaisedButton(
             child: Text('Puntaje'),
             onPressed: _showNicknameDialog,

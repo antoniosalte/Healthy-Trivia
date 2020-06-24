@@ -161,12 +161,10 @@ class _ScoreScreenState extends State<ScoreScreen> {
                           .entries
                           .map(
                             (entry) => Container(
-                              color: (widget.currentRanking.nickname ==
-                                          entry.value.nickname &&
-                                      widget.currentRanking.score ==
-                                          entry.value.score)
-                                  ? Theme.of(context).colorScheme.secondary
-                                  : Colors.transparent,
+                              color:
+                                  (widget.currentRanking.id == entry.value.id)
+                                      ? Theme.of(context).colorScheme.secondary
+                                      : Colors.transparent,
                               padding: EdgeInsets.all(8.0),
                               child: Row(
                                 mainAxisAlignment:
