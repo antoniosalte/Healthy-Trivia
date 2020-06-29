@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>139686513421-96not5knh4gnogu2c3b7mnsq1gto35jr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.139686513421-96not5knh4gnogu2c3b7mnsq1gto35jr</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD3_Uc_qlsZiEShMtAqU105NdVGP0EtLqA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>139686513421</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.software.healthytrivia</string>
+	<key>PROJECT_ID</key>
+	<string>healthy-trivia</string>
+	<key>STORAGE_BUCKET</key>
+	<string>healthy-trivia.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:139686513421:ios:9d9ee74bf86390c012fe44</string>
+	<key>DATABASE_URL</key>
+	<string>https://healthy-trivia.firebaseio.com</string>
+</dict>
+</plist>
