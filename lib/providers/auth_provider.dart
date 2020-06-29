@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:healthytrivia/services/game_service.dart';
 
+/// Proveedor que se encargá de manejar la autenticación de la aplicación.
 class AuthProvider with ChangeNotifier {
   FirebaseUser user;
   StreamSubscription userSubscription;
@@ -28,6 +29,7 @@ class AuthProvider with ChangeNotifier {
     super.dispose();
   }
 
+  /// Verificar si un usuario esta autenticado de manera anónima.
   bool get isAnonymous {
     assert(user != null);
     bool isAnonymusUser = true;
@@ -41,15 +43,18 @@ class AuthProvider with ChangeNotifier {
     return isAnonymusUser;
   }
 
+  /// Verficiar si existe un usuario autenticado.
   bool get isAuthenticated {
     return user != null;
   }
 
+  /// Ingresa a la aplicación de manera anonima;
   Future<void> signInAnonymously() async {
     await _firebaseAuth.signInAnonymously();
     _gameService.createUser();
   }
 
+  /// Cerrar sesión en la aplicación.
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }

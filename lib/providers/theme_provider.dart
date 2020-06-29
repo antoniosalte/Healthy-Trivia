@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show Brightness;
 import 'package:shared_preferences/shared_preferences.dart';
 
+/// Proveedor que se encargá de manejar el tema de la aplicación.
 class ThemeProvider with ChangeNotifier {
   bool isLightTheme;
 
   ThemeProvider({this.isLightTheme});
 
+  /// Retorna el tema actual de la aplicación.
   ThemeData get getThemeData => isLightTheme ? lightTheme : darkTheme;
 
-  //Async
+  /// Actualiza el tema de la aplicación de manera asíncrona.
+  /// Además guarda la preferencia del usuario respecto al tema.
   Future<void> setThemeDataAsync(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('isLightTheme', value);
@@ -18,7 +21,7 @@ class ThemeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Sync
+  //  Actualiza el tema de la aplicación de manera síncrona.
   set setThemeDataSync(bool value) {
     isLightTheme = value;
     notifyListeners();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Widget creado para los títulos dentro de las pantallas de la aplicación.
 class TitleWidget extends StatelessWidget {
   TitleWidget({this.title});
 

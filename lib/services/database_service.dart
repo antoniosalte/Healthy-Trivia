@@ -6,9 +6,11 @@ import 'package:healthytrivia/models/question.dart';
 import 'package:healthytrivia/models/ranking.dart';
 import 'package:healthytrivia/models/user.dart';
 
+/// Servicio que se encarga de registrar y pedir información a la Base de Datos (Cloud Firestore).
 class DatabaseService {
   final Firestore _firestore = Firestore.instance;
 
+  /// Crear un usario en Cloud Firestore.
   Future<void> createUser(User user) async {
     await _firestore
         .collection('users')
@@ -16,6 +18,7 @@ class DatabaseService {
         .setData(user.toFirestore());
   }
 
+  /// Query para obtener las preguntas por el nivel de dificultad.
   Future<List<Question>> getQuestions(int difficulty) async {
     QuerySnapshot query = await _firestore
         .collection('questions')
@@ -32,6 +35,7 @@ class DatabaseService {
     return questions;
   }
 
+  /// Crear un juego con el id del usuario y el nivel de dificultad.
   Future<Game> createGame(String userId, int difficulty) async {
     DocumentReference documentReference =
         _firestore.collection('games').document();
@@ -50,6 +54,7 @@ class DatabaseService {
     return game;
   }
 
+  /// Cuando se finaliza un juego se registra el puntaje, el nickname y la fecha de culminación de un juego.
   Future<void> endGame(Game game) async {
     await _firestore.collection('games').document(game.id).updateData({
       'nickname': game.nickname,
@@ -58,6 +63,7 @@ class DatabaseService {
     });
   }
 
+  /// Actualiza el puntaje un juego cuando se responde una pregunta.
   Future<void> updateGameScore(Game game) async {
     await _firestore
         .collection('games')
@@ -65,6 +71,7 @@ class DatabaseService {
         .updateData({'score': game.score});
   }
 
+  /// Registra la respuesta de un usuario.
   Future<void> answerQuestion(Answer answer) async {
     await _firestore
         .collection('answers')
@@ -72,6 +79,9 @@ class DatabaseService {
         .setData(answer.toFirestore());
   }
 
+  /// Query para obtener los puntajes de juego por el nivel de dificultad.
+  /// Estan ordenados de manera descendente respecto al puntaje.
+  /// Solo se toman en cuenta los puntajes mayores a 0.
   Future<List<Ranking>> getRanking(int difficulty) async {
     QuerySnapshot query = await _firestore
         .collection('games')

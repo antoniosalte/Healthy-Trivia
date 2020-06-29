@@ -46,6 +46,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// Maneja los estados de la aplicaión.
+/// Si un usuario esta autenticado muestra la aplicación y su jugabilidad.
+/// Si un usuario no esta autenticado muestra la pantalla para el inicio de sesión.
 class AuthManager extends StatelessWidget {
   AuthManager({Key key, this.title}) : super(key: key);
 
